@@ -1,3 +1,4 @@
+import React from 'react'
 import { Button} from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { globalActions } from '@/reducers/global.slice';
@@ -7,6 +8,7 @@ const Title = () => {
     <div>Title</div>
   )
 }
+
 const Home = () => {
   const dispatch = useDispatch();
   return (

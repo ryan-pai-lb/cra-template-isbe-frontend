@@ -12,6 +12,7 @@ import {
   Collapse,
   Icon
  } from '@mui/material';
+import { Breadcrumb } from '@/uiComponents';
 import { styled, useTheme } from '@mui/material/styles';
 import { FormattedMessage } from 'react-intl';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
@@ -25,11 +26,11 @@ import ListItemText from '@mui/material/ListItemText';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 
-
 interface DrawerProps {
   routes:any;
   componentPlugins?: {
-    DrawerHeader?:React.FunctionComponent
+    DrawerHeader?:React.FunctionComponent,
+    DrawerBreadcrumb?:React.FC
   }
   
 }
@@ -92,7 +93,6 @@ export const Drawer = (props:DrawerProps) => {
   const [routeCollapseOpen, setRouteCollapseOpen] = React.useState<{[key:string]:boolean}>({});
   const location = useLocation();
   const matchedRoute = matchRoutes(routes, location) || [];
-
 
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
@@ -158,7 +158,17 @@ export const Drawer = (props:DrawerProps) => {
                       }
                     }}>
                       <ListItemIcon>
-                        <Icon>{route.icon}</Icon>
+                        <Box>
+                          {
+                            typeof route.icon === 'string' && <Icon>{route.icon}</Icon>
+                          }
+                          {
+                            typeof route.icon === 'object' && React.isValidElement(route.icon) &&  route.icon 
+                          }
+                          {
+                            (typeof route.icon === 'function' || ( typeof route.icon === 'object' && !React.isValidElement(route.icon))) && <route.icon/>
+                          }
+                        </Box>
                       </ListItemIcon>
                       <ListItemText primary={<FormattedMessage id={route.title}/>} />
                       {
@@ -192,6 +202,12 @@ export const Drawer = (props:DrawerProps) => {
       <Main open={drawerOpen}>
         <DrawerHeader />
         <Box p={3}>
+          {
+            componentPlugins?.DrawerBreadcrumb ? <componentPlugins.DrawerBreadcrumb/>
+            : <Breadcrumb routes={routes} configs={{enableIcon:true}}/>
+          }
+        </Box>
+        <Box>
           <Outlet/>
         </Box>
       </Main>

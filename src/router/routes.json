@@ -11,8 +11,8 @@
         "componentPath": "pages/user/Login",
         "order": 1,
         "children": [],
-        "navList": false,
-        "breadcrumb": false
+        "hiddenNavigation": false,
+        "hiddenBreadcrumb": false
       }
     ],
     "isRoot": true
@@ -29,36 +29,31 @@
         "componentPath": "pages/Home",
         "order": 1,
         "children": [],
-        "navList": false,
-        "breadcrumb": false
+        "hiddenNavigation": true,
+        "hiddenBreadcrumb": false
       },
       {
         "title": "title.todo",
-        "icon": "info",
+        "icon": "close",
         "path": "/todo",
         "componentPath": "pages/todo/index",
         "order": 2,
+        "disabledBreadcrumbLink": true,
         "children": [{
           "title": "title.todo.create",
           "icon": "info",
           "path": "/todo/create",
           "componentPath": "pages/todo/Create",
           "order": 1,
-          "children": [],
-          "navList": false,
-          "breadcrumb": false
+          "children": []
         },{
           "title": "title.todo.list",
           "icon": "info",
           "path": "/todo/list",
           "componentPath": "pages/todo/List",
           "order": 1,
-          "children": [],
-          "navList": false,
-          "breadcrumb": false
-        }],
-        "navList": false,
-        "breadcrumb": false
+          "children": []
+        }]
       }
     ],
     "isProject": true,
@@ -70,8 +65,6 @@
     "path": "/404",
     "componentPath": "pages/404",
     "order": 999,
-    "children": [],
-    "navList": false,
-    "breadcrumb": false
+    "children": []
   }
 ]

@@ -22,9 +22,8 @@ import { ThemeProvider, createTheme, Theme} from '@mui/material/styles';
 import { defaultTheme as BasicTheme } from '@/styles'; 
 
 export type DialogProps = {
-  configName?:string;
   options:DialogOptions;
-  previewTheme?: Theme;
+  overrideTheme?: Theme;
   configs?:DialogConfigs;
   onClose(): void;
   onConfirm(): void;
@@ -49,9 +48,9 @@ export type DialogOptions = {
   fullScreen?: boolean | undefined;
   mobileFullScreen?:boolean | undefined;
   mobileVertical?:'flex-start' | 'center' | 'flex-end'
-  title?: string | JSX.Element | React.FC;
-  content?: string | JSX.Element | React.FC;
-  contentComponent?: JSX.Element | React.FC;
+  title?: string | React.FC;
+  content?: string | React.FC;
+  contentComponent?: React.FC;
   loading?: boolean | undefined;
   confirmHandle?(dispatch?:Dispatch<any>, history?:any): void |  null | undefined | unknown;
   confirmVariant?: 'contained' | 'outlined';
@@ -100,7 +99,7 @@ const useStyles = makeStyles((theme:Theme) => {
 
 
 const LBDialog = (props:DialogProps) => {
-  const {options, configs, previewTheme, onClose, onConfirm, onCancel} = props;
+  const {options, configs, overrideTheme, onClose, onConfirm, onCancel} = props;
   const componentConfig = configs || {};
   const classes = useStyles();
   const dialogSetting:DialogOptions = options ;
@@ -154,7 +153,7 @@ const LBDialog = (props:DialogProps) => {
         }
       }
     }
-  }, previewTheme || defaultTheme));
+  }, overrideTheme || defaultTheme));
 
   return (
     <ThemeProvider theme={theme}>
@@ -179,12 +178,10 @@ const LBDialog = (props:DialogProps) => {
                  
                 }
                 {
-                  typeof dialogSetting.title === 'object' &&
-                  dialogSetting.title
+                  typeof dialogSetting.title  === 'object' && React.isValidElement(dialogSetting.title ) &&  dialogSetting.title  
                 }
                 {
-                  typeof dialogSetting.title === 'function' &&
-                  <dialogSetting.title/>
+                  (typeof dialogSetting.title  === 'function' || ( typeof dialogSetting.title  === 'object' && !React.isValidElement(dialogSetting.title ))) && <dialogSetting.title />
                 }
                 {
                   dialogSetting.close &&
@@ -205,10 +202,10 @@ const LBDialog = (props:DialogProps) => {
             
                 <>
                   {
-                    typeof dialogSetting.content === 'object' && dialogSetting.content
+                    typeof dialogSetting.content  === 'object' && React.isValidElement(dialogSetting.content ) &&  dialogSetting.content  
                   }
                   {
-                    typeof dialogSetting.content === 'function' && <dialogSetting.content />
+                    (typeof dialogSetting.content  === 'function' || ( typeof dialogSetting.content  === 'object' && !React.isValidElement(dialogSetting.content ))) && <dialogSetting.content />
                   }
                   {
                     typeof dialogSetting.content === 'string' && <Box whiteSpace="pre-line"><FormattedMessage id={dialogSetting.content} defaultMessage={dialogSetting.content}/></Box>
@@ -219,7 +216,10 @@ const LBDialog = (props:DialogProps) => {
             </DialogContent>
            }
           {
-            dialogSetting.contentComponent && (typeof dialogSetting.contentComponent == 'function') ? <dialogSetting.contentComponent /> : dialogSetting.contentComponent
+            typeof dialogSetting.contentComponent  === 'object' && React.isValidElement(dialogSetting.contentComponent ) &&  dialogSetting.contentComponent  
+          }
+          {
+            (typeof dialogSetting.contentComponent  === 'function' || ( typeof dialogSetting.contentComponent  === 'object' && !React.isValidElement(dialogSetting.contentComponent ))) && <dialogSetting.contentComponent />
           }
         {
           !dialogSetting.contentComponent &&

@@ -1,4 +1,6 @@
-import Loadable from '@loadable/component'
+import Loadable from '@loadable/component';
+import HomeIcon from '@mui/icons-material/Home';
+
 type LoadableComponentOptions = {
   routes:RoutesType.Route[];
   LayoutLoading?:JSX.Element; 
@@ -10,6 +12,8 @@ export const loadableComponent = (options:LoadableComponentOptions) => {
     if(typeof route.componentPath === 'string') {
       const isLayout = route.componentPath.match('layout/');
       const componentPath = isLayout ? route.componentPath.replace(/layout\//i, '') : route.componentPath.replace(/pages\//i, '')
+     
+      route.icon = HomeIcon
       route.element = Loadable(() => 
       isLayout ?
       import(`@/styles`).then((module:any) => module[componentPath])

@@ -8,7 +8,6 @@ import { AlertColor} from '@mui/material/Alert';
 export const GLOBAL_FEATURE_KEY = 'global';
 
 export interface GlobalState  {
-  i18nMessages:any;
   locale:string;
   dialog: {
     confirm?: boolean | undefined;
@@ -104,7 +103,6 @@ export interface GlobalState  {
 
 export const initialGlobalState: GlobalState = {
   locale: 'en_us',
-  i18nMessages:{},
   dialog: {
     confirm: false,
     visible: false,
