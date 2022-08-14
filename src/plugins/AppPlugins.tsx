@@ -1,6 +1,6 @@
 import {useSelector, useDispatch } from 'react-redux';
 import { globalActions } from '@/reducers/global.slice';
-import { Dialog } from '@/uiComponents';
+import { Dialog , Snackbar} from '@/uiComponents';
 import { useNavigate } from "react-router-dom";
 
 const AppPlugins = () => {
@@ -35,6 +35,21 @@ const AppPlugins = () => {
           } else {
             dispatch(globalActions.toogleDialog({visible: false}))
           }
+        }}
+      />
+      <Snackbar
+        options={global.snackbar}
+        configs={{
+          "dialogBorder": true,
+          "titleBorder": true,
+          "actionBorder": true,
+          "actionFullWidth": true,
+          "actionColumnReverse": true,
+          "buttonSize": "large",
+          "titleDisableTypography": true
+        }}
+        onVisible={() => {
+          dispatch(globalActions.snackbarRequest({visible: false}))
         }}
       />
     </>

@@ -40,7 +40,7 @@ export interface GlobalState  {
       horizontal:'left' | 'center' | 'right'
     },
     icon?:string;
-    content?: string | JSX.Element | React.FC;
+    content?: string | JSX.Element | React.FC | null;
     snackbarComponent?: React.ReactNode ;
     action?:React.ReactNode ;
     persist?:boolean;
@@ -281,8 +281,32 @@ export const globalSlice = createSlice({
         ...state.dialog,
         ...globalDialogSettings
       }
-    } 
-  }
+    },
+    snackbarRequest(state, action) {
+      let snackbarSettings = { ...state.snackbar };
+
+      if (action.payload.visible) {
+        snackbarSettings = {
+          ...snackbarSettings,
+          autoHideDuration: 3000,
+          content: null,
+          snackbarComponent: null,
+          action: undefined,
+          hideIconVariant: false,
+          close: false,
+          persist: false,
+        };
+      }
+      snackbarSettings = {
+        ...snackbarSettings,
+        ...action.payload,
+      };
+      state.snackbar = {
+        ...state.snackbar,
+        ...snackbarSettings
+      };
+    },
+  },
 });
 
 /*
