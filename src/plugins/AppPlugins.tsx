@@ -40,13 +40,13 @@ const AppPlugins = () => {
       <Snackbar
         options={global.snackbar}
         configs={{
-          "dialogBorder": true,
-          "titleBorder": true,
-          "actionBorder": true,
-          "actionFullWidth": true,
-          "actionColumnReverse": true,
-          "buttonSize": "large",
-          "titleDisableTypography": true
+          onlyUseDefaultBackground: false,
+          anchorOrigin: {
+            vertical: "bottom", 
+            horizontal: "left"
+          },
+          autoHideDuration: 3000,
+          contentColor: "#fff"
         }}
         onVisible={() => {
           dispatch(globalActions.snackbarRequest({visible: false}))

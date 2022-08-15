@@ -5,10 +5,8 @@ import {
   Box
  } from '@mui/material';
 import { useSnackbar, SnackbarProvider, SnackbarKey } from 'notistack';
-import { useSelector } from 'react-redux';
 import _ from 'lodash';
 import { injectIntl, FormattedMessage} from 'react-intl';
-import { getGlobal } from '@/reducers/states';
 import { makeStyles } from '@mui/styles';
 import { useTheme, Theme, createTheme, ThemeProvider} from '@mui/material/styles';
 import { defaultTheme as BasicTheme } from '@/styles'; 
@@ -17,20 +15,20 @@ import { defaultTheme as BasicTheme } from '@/styles';
 export type SnackbarProps = {
   configName?:string;
   themeName?:string;
-  options?:SnackbarOptions;
+  options:SnackbarOptions;
   overrideTheme?: Theme
-  configs?:any;
+  configs:SnackbarConfigs;
   onVisible(): void;
 }
 
 export type SnackbarConfigs = {
-  dialogBorder?: boolean,
-  titleBorder?: boolean,
-  actionBorder?: boolean,
-  actionFullWidth?: boolean,
-  actionColumnReverse?: boolean,
-  buttonSize?: 'small' | 'medium' | 'large',
-  titleDisableTypography?: boolean
+  onlyUseDefaultBackground: boolean;
+  anchorOrigin: {
+    vertical: 'bottom' | 'top'; 
+    horizontal: 'left' | 'center' | 'right';
+  };
+  autoHideDuration: number;
+  contentColor: string;
 }
 
 export type SnackbarOptions = {
@@ -42,7 +40,7 @@ export type SnackbarOptions = {
     horizontal:'left' | 'center' | 'right'
   } | undefined,
   icon?:string;
-  content?:React.ReactNode | string | undefined | React.FC;
+  content?: string | undefined | React.FC;
   snackbarComponent?: React.ReactNode | undefined;
   action?:React.ReactNode | undefined;
   persist?:boolean;
@@ -82,9 +80,8 @@ const LBSnackbarContent = (props:SnackbarProps) => {
   const { options, configs , onVisible } = props;
   const [isOpen, setOpen] = useState(false)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-  const global = useSelector(getGlobal);
   const theme = useTheme();
-  const snackbarSetting : SnackbarOptions  = options || global.snackbar;
+  const snackbarSetting : SnackbarOptions  = options ;
 
   const onClickDismiss = (key:SnackbarKey) => () => { 
     closeSnackbar(key)
@@ -110,13 +107,13 @@ const LBSnackbarContent = (props:SnackbarProps) => {
             }
             <Box color={configs.contentColor}>
               {
-                typeof snackbarSetting.content === 'object' && snackbarSetting.content
+                typeof snackbarSetting.content === 'object' && React.isValidElement(snackbarSetting.content) && snackbarSetting.content
               }
               {
-                typeof snackbarSetting.content === 'function' && <snackbarSetting.content />
+                (typeof snackbarSetting.content  === 'function' || ( typeof snackbarSetting.content  === 'object' && !React.isValidElement(snackbarSetting.content ))) && <snackbarSetting.content />
               }
               {
-                typeof snackbarSetting.content === 'string' && <Box whiteSpace="pre-line"><FormattedMessage id={snackbarSetting.content} /></Box>
+                ( snackbarSetting.content && typeof snackbarSetting.content === 'string') && <Box whiteSpace="pre-line"><FormattedMessage id={snackbarSetting.content} defaultMessage={snackbarSetting.content} /></Box>
               }
             </Box>
           </Box>
@@ -146,15 +143,14 @@ const LBSnackbarContent = (props:SnackbarProps) => {
 }
 
 const LBSnackbar = (props:SnackbarProps) => {
-  const {configName, themeName, overrideTheme} = props;
+  const { themeName, overrideTheme} = props;
   const classes = useStyles()
-  const componentConfig = configName ;
   const componentTheme = themeName 
   const defaultTheme = createTheme(_.defaultsDeep(componentTheme,BasicTheme))
   const theme:any = createTheme(_.defaultsDeep({
     overrides: {}
   },overrideTheme || defaultTheme));
-  
+
   return (
     <ThemeProvider theme={theme}>
       <SnackbarProvider
@@ -169,7 +165,6 @@ const LBSnackbar = (props:SnackbarProps) => {
         hideIconVariant={true}
       >
         <LBSnackbarContent
-          configs={componentConfig}
           {...props}
         ></LBSnackbarContent>
       </SnackbarProvider>
