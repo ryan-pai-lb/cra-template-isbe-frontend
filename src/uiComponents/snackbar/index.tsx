@@ -40,7 +40,7 @@ export type SnackbarOptions = {
     horizontal:'left' | 'center' | 'right'
   },
   icon?:string;
-  content?: string | React.FC;
+  content?: string | React.FC | null;
   snackbarComponent?: SnackbarContentCallback;
   action?:React.ReactNode;
   persist?:boolean;
@@ -110,7 +110,7 @@ const LBSnackbarContent = (props:SnackbarProps) => {
                 typeof snackbarSetting.content === 'object' && React.isValidElement(snackbarSetting.content) && snackbarSetting.content
               }
               {
-                (typeof snackbarSetting.content  === 'function' || ( typeof snackbarSetting.content  === 'object' && !React.isValidElement(snackbarSetting.content ))) && <>{snackbarSetting.content}</>
+                snackbarSetting.content && (typeof snackbarSetting.content  === 'function' || ( typeof snackbarSetting.content  === 'object' && !React.isValidElement(snackbarSetting.content ))) && <snackbarSetting.content/>
               }
               {
                 ( snackbarSetting.content && typeof snackbarSetting.content === 'string') && <Box whiteSpace="pre-line"><FormattedMessage id={snackbarSetting.content} defaultMessage={snackbarSetting.content} /></Box>
