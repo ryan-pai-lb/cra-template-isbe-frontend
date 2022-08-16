@@ -4,7 +4,7 @@ import {
   IconButton,
   Box
  } from '@mui/material';
-import { useSnackbar, SnackbarProvider, SnackbarKey } from 'notistack';
+import { useSnackbar, SnackbarProvider, SnackbarKey, SnackbarContentCallback } from 'notistack';
 import _ from 'lodash';
 import { injectIntl, FormattedMessage} from 'react-intl';
 import { makeStyles } from '@mui/styles';
@@ -38,11 +38,11 @@ export type SnackbarOptions = {
   anchorOrigin?: {
     vertical:'bottom' | 'top'
     horizontal:'left' | 'center' | 'right'
-  } | undefined,
+  },
   icon?:string;
-  content?: string | undefined | React.FC;
-  snackbarComponent?: React.ReactNode | undefined;
-  action?:React.ReactNode | undefined;
+  content?: string | React.FC;
+  snackbarComponent?: SnackbarContentCallback;
+  action?:React.ReactNode;
   persist?:boolean;
   preventDuplicate?:boolean;
   hideIconVariant?:boolean;
@@ -110,7 +110,7 @@ const LBSnackbarContent = (props:SnackbarProps) => {
                 typeof snackbarSetting.content === 'object' && React.isValidElement(snackbarSetting.content) && snackbarSetting.content
               }
               {
-                (typeof snackbarSetting.content  === 'function' || ( typeof snackbarSetting.content  === 'object' && !React.isValidElement(snackbarSetting.content ))) && <snackbarSetting.content />
+                (typeof snackbarSetting.content  === 'function' || ( typeof snackbarSetting.content  === 'object' && !React.isValidElement(snackbarSetting.content ))) && <>{snackbarSetting.content}</>
               }
               {
                 ( snackbarSetting.content && typeof snackbarSetting.content === 'string') && <Box whiteSpace="pre-line"><FormattedMessage id={snackbarSetting.content} defaultMessage={snackbarSetting.content} /></Box>
