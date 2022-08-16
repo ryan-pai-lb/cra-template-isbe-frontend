@@ -48,7 +48,7 @@ const AppPlugins = () => {
           autoHideDuration: 3000,
           contentColor: "#fff"
         }}
-        onVisible={() => {
+        onClose={() => {
           dispatch(globalActions.snackbarRequest({visible: false}))
         }}
       />

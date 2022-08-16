@@ -18,7 +18,7 @@ export type SnackbarProps = {
   options:SnackbarOptions;
   overrideTheme?: Theme
   configs:SnackbarConfigs;
-  onVisible(): void;
+  onClose(): void;
 }
 
 export type SnackbarConfigs = {
@@ -77,7 +77,7 @@ const VariantIcon = {
 }
 
 const LBSnackbarContent = (props:SnackbarProps) => {
-  const { options, configs , onVisible } = props;
+  const { options, configs , onClose } = props;
   const [isOpen, setOpen] = useState(false)
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const theme = useTheme();
@@ -88,8 +88,8 @@ const LBSnackbarContent = (props:SnackbarProps) => {
   }
 
   useEffect(() => {
-    if(!isOpen && !options) {
-      onVisible()
+    if(!isOpen) {
+      onClose()
     }
   }, [isOpen])
 
