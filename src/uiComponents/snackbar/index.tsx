@@ -6,7 +6,7 @@ import {
  } from '@mui/material';
 import { useSnackbar, SnackbarProvider, SnackbarKey, SnackbarContentCallback } from 'notistack';
 import _ from 'lodash';
-import { injectIntl, FormattedMessage} from 'react-intl';
+import { FormattedMessage} from 'react-intl';
 import { makeStyles } from '@mui/styles';
 import { useTheme, Theme, createTheme, ThemeProvider} from '@mui/material/styles';
 import { defaultTheme as BasicTheme } from '@/styles'; 
