@@ -22,6 +22,19 @@ const Home = () => {
         content: 'Content',
         title: <Title/>
       }))}>Dialog Open</Button>
+      <Button
+      onClick={() => dispatch(globalActions.snackbarRequest({
+        visible: true,
+        variant: 'success',
+        content: '註冊成功',
+        anchorOrigin:{
+        vertical: 'top',
+        horizontal: 'right'
+        }
+      }))}
+      >
+        Snackbar Open
+      </Button>
     </>
   )
 }
