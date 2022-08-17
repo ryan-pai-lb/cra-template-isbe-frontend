@@ -55,8 +55,20 @@ declare module '@mui/material/styles/overrides' {
 
 export const defaultTheme = createTheme({
   palette: {
+    primary: {
+      main: '#ff8600',
+      light: '#ffc451',
+      dark: '#be6500',
+      contrastText: '#fff'
+    },
+    secondary: {
+      main: '#4b546a',
+      light: '#D9D9D9',
+      dark: '#383838',
+      contrastText: '#fff'
+    },
     default: {
-      main: '#434858',
+      main: '#fff',
       contrastText: '#fff'
     },
     success: {

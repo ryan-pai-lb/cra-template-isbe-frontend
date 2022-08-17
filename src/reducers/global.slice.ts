@@ -306,6 +306,9 @@ export const globalSlice = createSlice({
         ...snackbarSettings
       };
     },
+    changeLanguage(state, action) {
+      state.locale = action.payload
+    }
   },
 });
 

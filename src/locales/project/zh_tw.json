@@ -1,10 +1,10 @@
 {
   "title": "",
   "title.project": "Project",
-  "title.home": "Home",
-  "title.todo": "Todo",
-  "title.todo.create": "Create",
-  "title.todo.list": "List",
+  "title.home": "首頁",
+  "title.todo": "事項",
+  "title.todo.create": "建立",
+  "title.todo.list": "列表",
   
   "caption": "",
 

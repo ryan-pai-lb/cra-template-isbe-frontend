@@ -2,7 +2,7 @@ import config from '../project.config.json';
 
 type Language = {
   locale:string;
-  lable:string;
+  label:string;
   id:number;
   keys:string;
   messages?:any

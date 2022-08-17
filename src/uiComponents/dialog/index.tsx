@@ -154,7 +154,7 @@ const LBDialog = (props:DialogProps) => {
       }
     }
   }, overrideTheme || defaultTheme));
-
+  
   return (
     <ThemeProvider theme={theme}>
       <Dialog
