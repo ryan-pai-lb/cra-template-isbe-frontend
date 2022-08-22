@@ -166,7 +166,7 @@ export const Drawer = (props:DrawerProps) => {
                             typeof route.icon === 'object' && React.isValidElement(route.icon) &&  route.icon 
                           }
                           {
-                            (typeof route.icon === 'function' || ( typeof route.icon === 'object' && !React.isValidElement(route.icon))) && <route.icon/>
+                            (typeof route.icon === 'function' || ( typeof route.icon === 'object' && !React.isValidElement(route.icon))) && <route.icon />
                           }
                         </Box>
                       </ListItemIcon>

@@ -13,7 +13,8 @@ import {
 import { ThemeProvider, createTheme, Theme} from '@mui/material/styles';
 import { defaultTheme as BasicTheme } from '@/styles'; 
 import _ from 'lodash';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
+import { LoadableClassComponent } from '@loadable/component';
+import SvgIcon, { SvgIconProps } from '@mui/material/SvgIcon';
 
 interface RouteMatchExtend extends RouteMatch {
   route:any
@@ -34,7 +35,7 @@ export interface BreadcrumbOptions {
   
 }
 
-const LinkIcon = (props:{icon:string | React.FC}) => {
+const LinkIcon = (props:{icon:string | React.FC |  LoadableClassComponent<any>}) => {
    
     return (
       <>
@@ -45,7 +46,7 @@ const LinkIcon = (props:{icon:string | React.FC}) => {
           typeof props.icon === 'object' && React.isValidElement(props.icon) &&  props.icon 
         }
         {
-          (typeof props.icon === 'function' || ( typeof props.icon === 'object' && !React.isValidElement(props.icon))) && <props.icon/>
+          (typeof props.icon === 'function' || ( typeof props.icon === 'object' && !React.isValidElement(props.icon))) && <Box display="flex" color="primary.main"><props.icon /></Box>
         }
       </>
     )

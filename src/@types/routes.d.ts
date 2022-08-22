@@ -1,7 +1,7 @@
 declare namespace RoutesType {
   interface Route {
     title?:string;
-    icon?:string | React.FC ;
+    icon?:string | React.FC | LoadableClassComponent;
     path: string;
     redirect?: any;
     componentPath?:string;

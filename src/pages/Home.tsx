@@ -11,6 +11,7 @@ const Title = () => {
 
 const Home = () => {
   const dispatch = useDispatch();
+
   return (
     <>
       <h1>Home</h1>

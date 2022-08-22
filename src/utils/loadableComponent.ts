@@ -11,7 +11,11 @@ export const loadableComponent = (options:LoadableComponentOptions) => {
     if(typeof route.componentPath === 'string') {
       const isLayout = route.componentPath.match('layout/');
       const componentPath = isLayout ? route.componentPath.replace(/layout\//i, '') : route.componentPath.replace(/pages\//i, '')
-     
+      const routeIconPath = route.icon;
+      route.icon = typeof routeIconPath === 'string' && routeIconPath.match('icons/') ? 
+      Loadable(() => 
+      import(`@/components/icons/${routeIconPath.replace(/icons\//i, '')}`).then((module:any) => module[routeIconPath.replace(/icons\//i, '')])) : routeIconPath;
+
       route.element = Loadable(() => 
       isLayout ?
       import(`@/styles`).then((module:any) => module[componentPath])

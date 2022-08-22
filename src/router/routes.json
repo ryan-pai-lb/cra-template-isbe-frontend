@@ -34,7 +34,7 @@
       },
       {
         "title": "title.todo",
-        "icon": "close",
+        "icon": "icons/DerivateIcon",
         "path": "/todo",
         "componentPath": "pages/todo/index",
         "order": 2,
