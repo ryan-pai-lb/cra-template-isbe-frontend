@@ -46,7 +46,7 @@ const LinkIcon = (props:{icon:string | React.FC |  LoadableClassComponent<any>})
           typeof props.icon === 'object' && React.isValidElement(props.icon) &&  props.icon 
         }
         {
-          (typeof props.icon === 'function' || ( typeof props.icon === 'object' && !React.isValidElement(props.icon))) && <Box display="flex" color="primary.main"><props.icon /></Box>
+          (typeof props.icon === 'function' || ( typeof props.icon === 'object' && !React.isValidElement(props.icon))) && <Box display="flex"><props.icon /></Box>
         }
       </>
     )
