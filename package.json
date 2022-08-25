@@ -63,6 +63,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^6.4.5",
+    "craco-esbuild": "^0.5.1",
     "@types/loadable__component": "^5.13.4",
     "@types/react-helmet": "^6.1.5",
     "@types/redux-logger": "^3.0.9",
