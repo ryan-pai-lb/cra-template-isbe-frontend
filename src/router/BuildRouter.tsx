@@ -1,5 +1,5 @@
 import React from 'react';
-import {Routes, Route, Navigate } from 'react-router-dom';
+import {Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getGlobal } from '@/reducers/states';
 import layoutPlugins from '@/plugins'
@@ -26,8 +26,11 @@ const Children = (routes:any) => {
 
 const Router = (props:{routes:any, appConfig:any}) => {
   const {routes, appConfig} = props;
+  const location = useLocation()
   const NotFound = routes.find((route:any) => route.path === '/404').element
   const global = useSelector(getGlobal);
+
+  const { search } = location
 
   return(
     <Routes>
@@ -40,7 +43,7 @@ const Router = (props:{routes:any, appConfig:any}) => {
           if(route.path !== '/user' && appConfig.enableVerifyToken.value && !global.user.loaded) {
             return (
               <React.Fragment key={route.path}>
-                <Route path="*" element={<Navigate to={'/user'}/>}/>
+                <Route path="*" element={<Navigate to={{ pathname: '/user' , search}}/>}/>
               </React.Fragment>
             )
           }
@@ -48,7 +51,7 @@ const Router = (props:{routes:any, appConfig:any}) => {
             <React.Fragment key={route.path}>
               {
                 route.redirect &&
-                <Route path={route.path} element={<Navigate to={route.redirect}/>}/>
+                <Route path={route.path} element={<Navigate to={{ pathname: route.redirect , search}}/>}/>
               }
               <Route children={<>{Children(route.children)} <Route path="*" element={<NotFound/>}/></>} path={route.path} element={<RouteComponent routes={route.children} componentPlugins={componentPlugins}/>}/>
             </React.Fragment>
