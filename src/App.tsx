@@ -4,69 +4,48 @@ import {
   LinearProgress
 } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
-import BuildRouter from './router/BuildRouter';
-import {BrowserRouter } from 'react-router-dom';
 import * as Styles from './styles';
 import {IntlProvider} from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
 import { globalActions } from './reducers/global.slice';
 import { getGlobal } from './reducers/states';
-import globalLocales, {Locales} from './locales/global/index';
+import ProjectConfig from './project.config.json';
+import { Locales } from './locales/global/index';
 import plugins from '@/plugins';
+import {Outlet } from 'react-router-dom';
+import locales from './locales';
 
-const AppPlugins = plugins['App'];
-
-type AppProps = { 
-  config: {
-    themeName: string;
-    [key:string]:any;
-  };
-  routes: RoutesType.Route[];
-  appLocales:any
-}
-
-export const App:FC<AppProps> = (props:AppProps) => {
-  const {config, routes, appLocales} = props;
-  const dispatch = useDispatch();
+export const App = () => {
+  // const dispatch = useDispatch();
   const {locale, startUp} = useSelector(getGlobal);
   const styles:any = Styles;
-  const theme = config.themeName ? styles[config.themeName] : styles.defaultTheme;
-  const [i8nMessages, setI8nMessages] = useState<Locales>({})
-
-  const initMessage = () => {
-    const messages:Locales = {}
-    Object.keys(appLocales).forEach((lang:string) => {
-      messages[lang] = {
-        ...globalLocales[lang].messages,
-        ...appLocales[lang].messages
-      }
-    });
-
-    setI8nMessages(messages)
-  }
+  const theme = ProjectConfig.themeName ? styles[ProjectConfig.themeName] : styles.defaultTheme;
+  const [i8nMessages, setI8nMessages] = useState<Locales>();
+  const AppPlugins = plugins['App'];
 
   useEffect(() => {
-    initMessage()
-    dispatch(globalActions.startUpRequest());
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const init = () => {
+      setI8nMessages(locales)
+      // dispatch(globalActions.startUpRequest());
+    }
+    init()
   }, []);
 
   return (
-    <IntlProvider locale="en"  messages={i8nMessages[locale]}>
+    <IntlProvider locale="en"  messages={i8nMessages && i8nMessages[locale] || {}}>
       <ThemeProvider theme={theme}>
         <>
           <CssBaseline/>
           {
-            startUp.loading &&
+            false &&
             <LinearProgress/>
           }
           {
-            startUp.loaded &&
-            <BrowserRouter>
-              <BuildRouter routes={routes} appConfig={config}/>
+            true &&
+            <>
+              <Outlet/>
               <AppPlugins/>
-            </BrowserRouter>
+            </>
           }
           
         </>

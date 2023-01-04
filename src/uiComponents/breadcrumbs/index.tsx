@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, useLocation, matchRoutes, RouteMatch} from "react-router-dom";
+import { useNavigate, useLocation, matchRoutes, RouteMatch, useParams} from "react-router-dom";
 import {
   FormattedMessage,
 } from 'react-intl';
@@ -24,7 +24,7 @@ export interface BreadcrumbProps {
   options?: BreadcrumbOptions;
   overrideTheme?: Theme;
   configs?:BreadcrumbConfigs;
-  routes:RoutesType.Route[];
+  routes:any;
 }
 
 export type BreadcrumbConfigs ={
@@ -55,10 +55,12 @@ const LinkIcon = (props:{icon:string | React.FC |  LoadableClassComponent<any>})
 export const Breadcrumb = (props: BreadcrumbProps) => {
   const { overrideTheme, configs, routes} = props;
   const componentConfig = configs || {};
+  const params = useParams();
+  const { lang } = params;
   const { enableIcon } = componentConfig;
   const navigate = useNavigate();
   const location = useLocation();
-    
+
   const defaultTheme = createTheme(_.defaultsDeep( BasicTheme))
 
   const theme:any = createTheme(_.defaultsDeep({
@@ -67,7 +69,7 @@ export const Breadcrumb = (props: BreadcrumbProps) => {
     }
   }, overrideTheme || defaultTheme));
 
-  const matchedRoutes:RouteMatchExtend[] = matchRoutes(routes, location) || [];
+  const matchedRoutes:RouteMatchExtend[] = matchRoutes(routes, location,  (lang && `/${lang}`) || '') || [];
 
   return (
     <ThemeProvider<Theme> theme={theme}>

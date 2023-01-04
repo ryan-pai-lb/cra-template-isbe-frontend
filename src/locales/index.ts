@@ -1,4 +1,5 @@
-import config from '../project.config.json';
+import globalLocales, {Locales} from './global/index';
+import config from '@/project.config.json';
 
 type Language = {
   locale:string;
@@ -15,8 +16,11 @@ type Languages = {
 const ProjectConfig:any = config;
 const languages:Languages  =  {}
 Object.keys(ProjectConfig.languages).forEach((key:string) => {
-  languages[key] = ProjectConfig.languages[key]
-  return languages[key].messages = require(`./project/${key}.json`)
+  languages[key] = ProjectConfig.languages[key];
+  return languages[key] = {
+    ...globalLocales[key],
+    ...require(`./project/${key}.json`)
+  }
 });
 
 export default languages;

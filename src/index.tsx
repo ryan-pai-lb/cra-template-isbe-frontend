@@ -1,30 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
-
-import ProjectConfig from './project.config.json';
+import { RouterProvider, } from 'react-router-dom';
+import { createRouter } from './router';
 import { Provider } from 'react-redux';
-import reducers from './reducers';
-import appSagas from './sagas'
 import reportWebVitals from './reportWebVitals';
-import RoutesJSON from './router/routes.json';
-import { loadableComponent } from './utils/loadableComponent';
-import LayoutLoading from './components/LayoutLoading';
-import PageLoading from './components/PageLoading';
-import locales from './locales';
-import createStore from './reducers/store';
-
-const routes = loadableComponent({routes: RoutesJSON, LayoutLoading: <LayoutLoading/>, PageLoading: <PageLoading/>});
-const store = createStore({appConfig: ProjectConfig, appReducers: reducers, appSagas});
+import store from './reducers/store';
+import AppLoading from '@/components/AppLoading';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+const router = createRouter(store);
 
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App {...{config: ProjectConfig, routes, appLocales: locales}}/>
+      <RouterProvider router={router} fallbackElement={<AppLoading/>}/>
     </Provider>
   </React.StrictMode>
 );

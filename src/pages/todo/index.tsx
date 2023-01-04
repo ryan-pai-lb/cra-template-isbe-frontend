@@ -1,12 +1,13 @@
 import React from 'react';
+import { Box } from '@mui/material';
 import {Outlet } from 'react-router-dom';
 type TodoProps = {
-  routes: RoutesType.Route
+  routes: any
 }
 const Todo = (props:TodoProps) => {
   return (
     <>
-      <h1>Todo</h1>
+      <Box p={3}><h1>Todo</h1></Box>
      <Outlet/>
     </>
   )

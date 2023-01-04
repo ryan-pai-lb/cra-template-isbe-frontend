@@ -1,32 +1,32 @@
 [
   {
-    "path": "/user",
-    "componentPath": "layout/User",
+    "path": "user",
+    "element": "layout/User",
     "redirect": "/user/login",
     "children": [
       {
         "title": "title.login",
         "icon": "info",
-        "path": "/user/login",
-        "componentPath": "pages/user/Login",
+        "path": "login",
+        "element": "pages/user/Login",
         "order": 1,
         "children": [],
         "hiddenNavigation": false,
         "hiddenBreadcrumb": false
       }
-    ],
-    "isRoot": true
+    ]
   },
   {
-    "path": "/",
-    "componentPath": "layout/Drawer",
+    "path": "",
+    "element": "layout/Drawer",
     "redirect": "/home",
     "children": [
       {
         "title": "title.home",
         "icon": "info",
-        "path": "/home",
-        "componentPath": "pages/Home",
+        "path": "home",
+        "loaderName": "homeLoader",
+        "element": "pages/Home",
         "order": 1,
         "children": [],
         "hiddenNavigation": true,
@@ -35,36 +35,27 @@
       {
         "title": "title.todo",
         "icon": "icons/DerivateIcon",
-        "path": "/todo",
-        "componentPath": "pages/todo/index",
+        "path": "todo",
+        "loaderName": "todoLoader",
+        "element": "pages/todo/index",
         "order": 2,
         "disabledBreadcrumbLink": true,
         "children": [{
           "title": "title.todo.create",
           "icon": "info",
-          "path": "/todo/create",
-          "componentPath": "pages/todo/Create",
+          "path": "create",
+          "element": "pages/todo/Create",
           "order": 1,
           "children": []
         },{
           "title": "title.todo.list",
           "icon": "info",
-          "path": "/todo/list",
-          "componentPath": "pages/todo/List",
+          "path": "list",
+          "element": "pages/todo/List",
           "order": 1,
           "children": []
         }]
       }
-    ],
-    "isProject": true,
-    "isRoot": true
-  },
-  {
-    "title": "title.404.notfound",
-    "icon": "info",
-    "path": "/404",
-    "componentPath": "pages/404",
-    "order": 999,
-    "children": []
+    ]
   }
 ]

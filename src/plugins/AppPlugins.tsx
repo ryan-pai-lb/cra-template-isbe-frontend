@@ -49,7 +49,7 @@ const AppPlugins = () => {
           contentColor: "#fff"
         }}
         onClose={() => {
-          dispatch(globalActions.snackbarRequest({visible: false}))
+          // dispatch(globalActions.snackbarRequest({visible: false}))
         }}
       />
     </>

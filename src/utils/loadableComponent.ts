@@ -1,13 +1,13 @@
 import Loadable from '@loadable/component';
 
-type LoadableComponentOptions = {
-  routes:RoutesType.Route[];
+export type LoadableComponentOptions = {
+  routes:any;
   LayoutLoading?:JSX.Element; 
   PageLoading?:JSX.Element;
 }
 
 export const loadableComponent = (options:LoadableComponentOptions) => {
-  const routes = options.routes.map((route:RoutesType.Route) => {
+  const routes = options.routes.map((route:any) => {
     if(typeof route.componentPath === 'string') {
       const isLayout = route.componentPath.match('layout/');
       const componentPath = isLayout ? route.componentPath.replace(/layout\//i, '') : route.componentPath.replace(/pages\//i, '')
