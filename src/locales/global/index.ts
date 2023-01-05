@@ -6,11 +6,7 @@ export type Locales = {
 }
 
 const languages: any = {
-  en_us: {
-    messages: en_us,
-  },
-  zh_tw: {
-    messages: zh_tw,
-  },
+  en_us,
+  zh_tw
 };
 export default languages;

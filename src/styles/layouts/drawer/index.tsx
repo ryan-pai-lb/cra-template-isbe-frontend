@@ -1,6 +1,7 @@
-import * as React from 'react';
-import { Outlet, useNavigate, useLocation, matchRoutes} from "react-router-dom";
-
+import React, { useEffect, useState, FC } from 'react';
+import { Outlet, useLocation, matchRoutes, useParams} from "react-router-dom";
+import useRouteNavigate from '@/hooks/useRouteNavigate'
+import Loadable from '@loadable/component';
 import { 
   Box,
   Toolbar,
@@ -29,8 +30,8 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 interface DrawerProps {
   routes:any;
   componentPlugins?: {
-    DrawerHeader?:React.FunctionComponent,
-    DrawerBreadcrumb?:React.FC
+    DrawerHeader?:FC,
+    DrawerBreadcrumb?:FC
   }
   
 }
@@ -88,12 +89,14 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export const Drawer = (props:DrawerProps) => {
   const { routes, componentPlugins } = props;
   const theme = useTheme();
-  const navigate = useNavigate();
-  const [drawerOpen, setDrawerOpen] = React.useState(true);
-  const [routeCollapseOpen, setRouteCollapseOpen] = React.useState<{[key:string]:boolean}>({});
+  const navigate = useRouteNavigate();
+  const [drawerOpen, setDrawerOpen] = useState(true);
+  const [routeCollapseOpen, setRouteCollapseOpen] = useState<{[key:string]:boolean}>({});
   const location = useLocation();
-  const matchedRoute = matchRoutes(routes, location) || [];
+  const params = useParams();
+  const { lang } = params;
 
+  const matchedRoute = matchRoutes(routes, location, lang && `/${lang}` || '') || [];
   const handleDrawerOpen = () => {
     setDrawerOpen(true);
   };
@@ -101,6 +104,18 @@ export const Drawer = (props:DrawerProps) => {
   const handleDrawerClose = () => {
     setDrawerOpen(false);
   };
+
+  useEffect(() => {
+    if(routes.length) {
+      let matchRoutePath:{[key:string]: boolean} = {}
+      matchedRoute.map((route) => {
+        return route.pathname
+      }).forEach((path:string) => {
+        matchRoutePath[path] = true;
+      });
+      setRouteCollapseOpen(matchRoutePath)
+    }
+  }, [routes]);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -146,15 +161,22 @@ export const Drawer = (props:DrawerProps) => {
         <Divider />
         <List>
           {
-            routes.map((route:RoutesType.Route) => {
+            routes.map((route:any) => {
+              const rootPath = `/${route.path}`;
+              const routeIconPath = route.icon;
+              route.icon = typeof routeIconPath === 'string' && routeIconPath.match('icons/') ? 
+              Loadable(() => import(`@/components/icons/${routeIconPath.replace(/icons\//i, '')}`)
+              .then((module:any) => module[routeIconPath.replace(/icons\//i, '')])) 
+              : routeIconPath;
+
               return (
-                <React.Fragment key={route.path} >
+                <React.Fragment key={rootPath} >
                   <ListItem disablePadding>
-                    <ListItemButton selected={!!matchedRoute.find((item:any) => item.pathname === route.path)} onClick={() => {
+                    <ListItemButton selected={!!matchedRoute.find((item:any) => item.pathname === rootPath)} onClick={() => {
                       if(!route.children || route.children.length <= 0) {
-                        navigate(route.path)
+                        navigate(rootPath)
                       } else {
-                        setRouteCollapseOpen({...routeCollapseOpen,[route.path]: !routeCollapseOpen[route.path]})
+                        setRouteCollapseOpen({...routeCollapseOpen,[rootPath]: !routeCollapseOpen[rootPath]})
                       }
                     }}>
                       <ListItemIcon>
@@ -173,18 +195,19 @@ export const Drawer = (props:DrawerProps) => {
                       <ListItemText primary={<FormattedMessage id={route.title}/>} />
                       {
                         route.children && route.children.length > 0 ?
-                        !!routeCollapseOpen[route.path] ? <ExpandLess /> : <ExpandMore /> : <></>
+                        !!routeCollapseOpen[rootPath] ? <ExpandLess /> : <ExpandMore /> : <></>
                       }
                     </ListItemButton>
                   </ListItem>
                   {
                     route.children && route.children.length > 0 &&
-                    <Collapse in={!!routeCollapseOpen[route.path]} timeout="auto" unmountOnExit>
+                    <Collapse in={!!routeCollapseOpen[rootPath]} timeout="auto" unmountOnExit>
                       <List component="div" disablePadding>
                         {
-                          route.children.map((childrenRoute:RoutesType.Route) => {
+                          route.children.map((childrenRoute:any) => {
+                            const childrenPath = `${rootPath}/${childrenRoute.path}`
                             return (
-                              <ListItemButton selected={!!matchedRoute.find((item:any) => item.pathname === childrenRoute.path)} onClick={()=>  navigate(childrenRoute.path)} key={childrenRoute.path} sx={{ pl: 9 }}>
+                              <ListItemButton selected={!!matchedRoute.find((item:any) => item.pathname === childrenPath )} onClick={()=>  navigate(childrenPath)} key={childrenRoute.path} sx={{ pl: 9 }}>
                                 <ListItemText primary={<FormattedMessage id={childrenRoute.title}/>} />
                               </ListItemButton>
                             )

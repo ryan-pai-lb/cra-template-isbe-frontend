@@ -15,7 +15,7 @@ export const request = axios.create({
 request.interceptors.request.use(function(config:AxiosRequestConfig)  {
   const accountAuth = JSON.parse(localStorage.getItem('account-auth') || '{}') ;
   
-  config.url = window.Config.NODE_ENV === 'local' ? `/proxy-api${config.url}` : `${ window.Config.API_HOST}${config.url}`;
+  config.url = window.Config.ENV === 'local' ? `/proxy-api${config.url}` : `${ window.Config.API_HOST}${config.url}`;
   
   if(accountAuth.token) {
     config.headers = {

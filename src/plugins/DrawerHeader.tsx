@@ -1,5 +1,6 @@
 import React from 'react';
-import { useNavigate} from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
+import useRouteNavigate from '@/hooks/useRouteNavigate'
 import { useDispatch, useSelector } from 'react-redux';
 import { 
   Box,
@@ -12,22 +13,28 @@ import { PositionedMenu as LanguageMenu } from '@/uiComponents';
 import { globalActions } from '@/reducers/global.slice';
 import { getGlobal } from '@/reducers/states';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import Locales from '@/locales';
+import { languages } from '@/locales';
 
 const DrawerHeader = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const params = useParams();
   const navigate = useNavigate();
+  const langNavigate = useRouteNavigate()
+  const location = useLocation();
+  const { lang } = params;
   const global = useSelector(getGlobal);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  const languagesData = Object.keys(Locales).map((key:string) => {
+
+  const languagesData = Object.keys(languages).map((key:string) => {
     return {
-      value: Locales[key].locale,
-      label: Locales[key].label
+      value: languages[key].locale,
+      label: languages[key].label
     }
   })
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -42,7 +49,9 @@ const DrawerHeader = () => {
           <LanguageMenu 
             options={{data: languagesData, defaultValue: global.locale}} 
             onChange={(item) => {
-            dispatch(globalActions.changeLanguage(item.value))
+              const langPath = `/${item.value}${lang ? location.pathname.replace(`/${lang}`, '') : location.pathname}`
+              dispatch(globalActions.changeLanguage(item.value));
+              navigate(langPath)
         }}/></Box>
         <IconButton
             size="large"
@@ -70,9 +79,9 @@ const DrawerHeader = () => {
             onClose={handleClose}
           >
             <MenuItem onClick={() => {
-              dispatch(globalActions.getUserInfoFail())
-              navigate('/user/login')
-            }}>Signin</MenuItem>
+              localStorage.removeItem('auth-token')
+              langNavigate('/user')
+            }}>Loginout</MenuItem>
           </Menu>
       </Box>
     </Box>

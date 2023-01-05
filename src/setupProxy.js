@@ -4,7 +4,7 @@ module.exports = function(app) {
   app.use(
     '/proxy-api',
     createProxyMiddleware({
-      target: 'https://api.beta.metasens.io',
+      target: 'https://crudapi.co.uk/api',
       "pathRewrite": {
         "^/proxy-api": ""
       },

@@ -68,35 +68,6 @@ export interface GlobalState  {
     },
   },
   breadcrumbName: any;
-  startUp: {
-    loading:boolean;
-    loaded: boolean;
-  },
-  loginNonce: {
-    loading: boolean;
-    loaded: boolean;
-    data: any;
-  },
-  captcha: {
-    loading: boolean;
-    loaded: boolean;
-    data: any;
-  },
-  meta: {
-    loading: boolean;
-    loaded: boolean;
-    data: any;
-  },
-  user: {
-    loading: boolean;
-    loaded: boolean;
-    updated: boolean;
-    data: {
-      current: string;
-      [key:string]:any
-    }
-  }
-  socket: any
   
 }
 
@@ -141,112 +112,13 @@ export const initialGlobalState: GlobalState = {
     vertical: 'top',
     content: ''
   },
-  breadcrumbName: {},
-  startUp: {
-    loading:false,
-    loaded: false
-  },
-  loginNonce: {
-    loading: false,
-    loaded: false,
-    data: {}
-  },
-  captcha: {
-    loading: false,
-    loaded: false,
-    data: {}
-  },
-  meta: {
-    loading: false,
-    loaded: false,
-    data: {}
-  },
-  user: {
-    loading: false,
-    loaded: false,
-    updated: false,
-    data: {
-      current: 'default'
-    }
-  },
-  socket: {}
+  breadcrumbName: {}
 }
 
 export const globalSlice = createSlice({
   name: GLOBAL_FEATURE_KEY,
   initialState: initialGlobalState,
   reducers: {
-   startUpRequest(state) {
-    state.startUp = {
-      loading: true,
-      loaded: false
-    }
-   },
-   startUpSuccess(state) {
-    state.startUp = {
-      loading: false,
-      loaded: true
-    }
-   },
-   startUpFail(state) {
-    state.startUp = {
-      loading: false,
-      loaded: true
-    }
-   },
-   getMetaRequest(state) {
-    state.meta = {
-      loading: true,
-      loaded: false,
-      data: {}
-    }
-   },
-   getMetaSuccess(state,action) {
-    state.meta = {
-      loading: false,
-      loaded: true,
-      data: action.payload
-    }
-   },
-   getMetaFail(state) {
-    state.meta = {
-      loading: false,
-      loaded: false,
-      data:{}
-    }
-   },
-   getUserInfoRequest(state) {
-    state.user = {
-      loaded: false,
-      loading: true,
-      updated: false,
-      data: {
-        current: 'default'
-      }
-    }
-   },
-   getUserInfoSuccess(state,action) {
-      state.user = {
-        ...state.user,
-        loaded: true,
-        loading: false,
-        data: {
-          current: 'default',
-          ...action.payload
-        }
-      }
-    },
-    getUserInfoFail(state) {
-      state.user = {
-        ...state.user,
-        loaded: false,
-        loading: false,
-        data: {
-          current: 'default'
-        },
-      }
-    
-    },
     toogleDialog(state, action) {
       let globalDialogSettings = { ...state.dialog };
 

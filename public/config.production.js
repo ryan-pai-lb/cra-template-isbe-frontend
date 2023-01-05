@@ -1,5 +1,5 @@
 window.Config = {
-  NODE_ENV: 'production',
+  ENV: 'production',
   HOST: 'https://www.beta.metasens.io',
   API_HOST: 'https://api.beta.metasens.io'
 };

@@ -1,5 +1,13 @@
-import config from '../project.config.json';
+import globalLocales, {Locales} from './global/index';
+import ProjectConfig from '@/project.config.json';
 
+type ProjectConfigJSON = typeof ProjectConfig;
+export interface ProjectConfigJSONExtends extends Omit<ProjectConfigJSON, 'languages'> {
+  languages: {
+    [key:string]:Language
+  }
+  
+}
 type Language = {
   locale:string;
   label:string;
@@ -8,15 +16,19 @@ type Language = {
   messages?:any
 }
 
-type Languages = {
-  [key:string]:Language
+type messages = {
+  [key:string]:string
 }
 
-const ProjectConfig:any = config;
-const languages:Languages  =  {}
-Object.keys(ProjectConfig.languages).forEach((key:string) => {
-  languages[key] = ProjectConfig.languages[key]
-  return languages[key].messages = require(`./project/${key}.json`)
+const projectConfig:ProjectConfigJSONExtends = ProjectConfig;
+export const languages = projectConfig.languages
+
+const i18nMessages:messages  =  {}
+Object.keys(projectConfig.languages).forEach((key:string) => {
+  return i18nMessages[key] = {
+    ...globalLocales[key],
+    ...require(`./project/${key}.json`)
+  }
 });
 
-export default languages;
+export default i18nMessages;
