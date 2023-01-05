@@ -1,5 +1,6 @@
 import React from 'react';
-import { useNavigate, useLocation, matchRoutes, RouteMatch, useParams} from "react-router-dom";
+import { useLocation, matchRoutes, RouteMatch, useParams} from "react-router-dom";
+import useRouteNavigate from '@/hooks/useRouteNavigate'
 import {
   FormattedMessage,
 } from 'react-intl';
@@ -58,7 +59,7 @@ export const Breadcrumb = (props: BreadcrumbProps) => {
   const params = useParams();
   const { lang } = params;
   const { enableIcon } = componentConfig;
-  const navigate = useNavigate();
+  const navigate = useRouteNavigate();
   const location = useLocation();
 
   const defaultTheme = createTheme(_.defaultsDeep( BasicTheme))

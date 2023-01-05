@@ -17,7 +17,7 @@ import locales from './locales';
 
 export const App = () => {
   // const dispatch = useDispatch();
-  const {locale, startUp} = useSelector(getGlobal);
+  const {locale} = useSelector(getGlobal);
   const styles:any = Styles;
   const theme = ProjectConfig.themeName ? styles[ProjectConfig.themeName] : styles.defaultTheme;
   const [i8nMessages, setI8nMessages] = useState<Locales>();
@@ -26,7 +26,6 @@ export const App = () => {
   useEffect(() => {
     const init = () => {
       setI8nMessages(locales)
-      // dispatch(globalActions.startUpRequest());
     }
     init()
   }, []);
@@ -36,18 +35,10 @@ export const App = () => {
       <ThemeProvider theme={theme}>
         <>
           <CssBaseline/>
-          {
-            false &&
-            <LinearProgress/>
-          }
-          {
-            true &&
-            <>
-              <Outlet/>
-              <AppPlugins/>
-            </>
-          }
-          
+          <>
+            <Outlet/>
+            <AppPlugins/>
+          </>
         </>
       </ThemeProvider>
     </IntlProvider>

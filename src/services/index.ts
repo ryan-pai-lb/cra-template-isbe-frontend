@@ -4,8 +4,12 @@ import type { BaseQueryFn } from '@reduxjs/toolkit/query'
 const baseQuery = fetchBaseQuery({ 
   baseUrl: window.Config.ENV === 'local' ? `` : `${ window.Config.API_HOST}`,
   prepareHeaders: headers => {
+    const authToken = localStorage.getItem('auth-token')
     headers.set('Content-Type', 'application/json;charset=UTF-8');
-    // headers.set('Authorization', 'Bearer 3C-rZnJWf324I7mv2gSYs6-wYi4wcfJ7OWyPvl-UOcrxBcTHPQ');
+    if(authToken) {
+      headers.set('Authorization', `Bearer ${authToken}`);
+    }
+    
 
     return headers;
   }

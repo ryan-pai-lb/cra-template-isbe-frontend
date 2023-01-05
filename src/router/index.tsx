@@ -1,10 +1,11 @@
 import React, { } from 'react';
 import { EnhancedStore } from '@reduxjs/toolkit';
 import Loadable, {LoadableClassComponent} from '@loadable/component';
-import {createBrowserRouter, RouteObject, matchRoutes, matchPath, redirect } from 'react-router-dom';
+import {createBrowserRouter, RouteObject, matchRoutes, matchPath, redirect, useLocation } from 'react-router-dom';
 import routesJSON from './routes.json';
 
 import LayoutLoading from '@/components/LayoutLoading';
+import layoutPlugins from '@/plugins'
 import PageLoading from '@/components/PageLoading';
 import _ from 'lodash';
 import App from '@/App';
@@ -52,15 +53,21 @@ export const createRouter = (store:EnhancedStore) => {
       const Element = Loadable(() =>  isLayout ?import(`@/styles`).then((module:any) => module[elementPath]): import(`@/pages/${elementPath}`),{
         fallback: isLayout ? <LayoutLoading/> : <PageLoading/>
       });
-      
+      const layoutName = isLayout ? route.element.replace(/layout\//i, '') : '';
+      const componentPlugins = layoutPlugins[layoutName]
+
       newRoute.path = route.path
-      newRoute.element = <Element routes={route.children}/>
+      newRoute.element = <Element routes={route.children} componentPlugins={componentPlugins}/>
       newRoute.errorElement = <RouteError/>
       newRoute.children = createRoute(route.children);
       newRoute.loader = async({request, params}) => {
         const {lang} = params;
-        const matchedRoute = matchRoutes(routesJSON, window.location, (langs.includes(lang || '') && `/${lang}`) || '') || [];
-        const matchPathRoute = matchPath(route.path || '', window.location.pathname);
+        const location = {
+          pathname: request.url.replace(window.location.origin, '')
+        }
+        const matchedRoute = matchRoutes(routesJSON, location, (langs.includes(lang || '') && `/${lang}`) || '') || [];
+        const matchPathRoute = matchPath(lang ? `/${lang}/${route.path || ''}` : route.path || '', request.url.replace(window.location.origin, ''));
+
         //合法語系
         if((lang && !langs.includes(lang)) || (!isLayout && matchedRoute.length <= 0)) {
           throw new Response("Not Found", { status: 404 });
@@ -68,7 +75,7 @@ export const createRouter = (store:EnhancedStore) => {
      
         //has redirect
         else if(route.redirect && request.url.replace(window.location.origin, '') !== route.redirect && matchPathRoute) {
-          return redirect(route.redirect);
+          return redirect(lang ? `/${lang}${route.redirect}` : route.redirect);
         } 
         
         //page loader
@@ -97,7 +104,9 @@ export const createRouter = (store:EnhancedStore) => {
       path: "/:lang?",
       element: <App/>,
       children: createRoute(routesJSON),
-      loader: appLoader
+      loader: async({request, params}) => {
+        return await appLoader({store, request, params});
+      }
     }
   ]);
 

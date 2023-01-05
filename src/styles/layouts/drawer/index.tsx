@@ -1,5 +1,6 @@
 import React, { useEffect, useState, FC } from 'react';
-import { Outlet, useNavigate, useLocation, matchRoutes, useParams} from "react-router-dom";
+import { Outlet, useLocation, matchRoutes, useParams} from "react-router-dom";
+import useRouteNavigate from '@/hooks/useRouteNavigate'
 import Loadable from '@loadable/component';
 import { 
   Box,
@@ -88,7 +89,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export const Drawer = (props:DrawerProps) => {
   const { routes, componentPlugins } = props;
   const theme = useTheme();
-  const navigate = useNavigate();
+  const navigate = useRouteNavigate();
   const [drawerOpen, setDrawerOpen] = useState(true);
   const [routeCollapseOpen, setRouteCollapseOpen] = useState<{[key:string]:boolean}>({});
   const location = useLocation();
