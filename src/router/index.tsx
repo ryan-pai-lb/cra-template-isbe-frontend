@@ -1,14 +1,14 @@
 import React, { } from 'react';
 import { EnhancedStore } from '@reduxjs/toolkit';
-import { } from '@mui/material';
 import Loadable, {LoadableClassComponent} from '@loadable/component';
-import {createBrowserRouter, RouteObject, matchRoutes } from 'react-router-dom';
+import {createBrowserRouter, RouteObject, matchRoutes, matchPath, redirect } from 'react-router-dom';
 import routesJSON from './routes.json';
 
 import LayoutLoading from '@/components/LayoutLoading';
 import PageLoading from '@/components/PageLoading';
 import _ from 'lodash';
 import App from '@/App';
+import { appLoader } from '@/plugins/AppPlugins';
 import RouteError from '@/pages/RouteError';
 import ProjectConfig from '@/project.config.json';
 
@@ -45,7 +45,7 @@ const langs = langPathRegex.split('|');
 export const createRouter = (store:EnhancedStore) => {
   const createRoute = (routes?:RouteItem[]) => {
     let childrenRoutes:RouteObject[];
-    childrenRoutes = routes && routes.map((route) => {
+    childrenRoutes = (routes && routes.map((route) => {
       const newRoute:RouteObject = {}
       const isLayout = !!route.element.match('layout/');
       const elementPath = route.element.replace('layout/', '').replace('pages/', '');
@@ -60,18 +60,29 @@ export const createRouter = (store:EnhancedStore) => {
       newRoute.loader = async({request, params}) => {
         const {lang} = params;
         const matchedRoute = matchRoutes(routesJSON, window.location, (langs.includes(lang || '') && `/${lang}`) || '') || [];
-        const pageModule:any  = await Element.load();
+        const matchPathRoute = matchPath(route.path || '', window.location.pathname);
+        //合法語系
         if((lang && !langs.includes(lang)) || (!isLayout && matchedRoute.length <= 0)) {
           throw new Response("Not Found", { status: 404 });
-        }
-        if(typeof pageModule === 'object' && pageModule.loader) {
-          return  await pageModule.loader({store, request, params});
-        } else  {
-          return null
+        } 
+     
+        //has redirect
+        else if(route.redirect && request.url.replace(window.location.origin, '') !== route.redirect && matchPathRoute) {
+          return redirect(route.redirect);
+        } 
+        
+        //page loader
+        else {
+          const pageModule:any  = await Element.load();
+          if(typeof pageModule === 'object' && pageModule.loader) {
+            return  await pageModule.loader({store, request, params});
+          } else  {
+            return null
+          }
         }
       }
       return newRoute;
-    }) || [];
+    })) || [];
 
     childrenRoutes.push({
       path: "*",
@@ -85,7 +96,8 @@ export const createRouter = (store:EnhancedStore) => {
     {
       path: "/:lang?",
       element: <App/>,
-      children: createRoute(routesJSON)
+      children: createRoute(routesJSON),
+      loader: appLoader
     }
   ]);
 

@@ -3,6 +3,10 @@ import { globalActions } from '@/reducers/global.slice';
 import { Dialog , Snackbar} from '@/uiComponents';
 import { useNavigate } from "react-router-dom";
 
+export const appLoader = async() => {
+  return null
+}
+
 const AppPlugins = () => {
   const global = useSelector( (state:any) => state.global);
   const dispatch = useDispatch();

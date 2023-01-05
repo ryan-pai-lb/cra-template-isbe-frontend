@@ -40,6 +40,7 @@
         "element": "pages/todo/index",
         "order": 2,
         "disabledBreadcrumbLink": true,
+        "redirect": "/todo/list",
         "children": [{
           "title": "title.todo.create",
           "icon": "info",

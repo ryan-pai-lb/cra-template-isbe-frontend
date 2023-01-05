@@ -1,6 +1,6 @@
 import { useRouteError, isRouteErrorResponse } from 'react-router-dom';
 
-const NotFound = () => {
+const RouteError = () => {
   let error = useRouteError();
 
   if (isRouteErrorResponse(error)) {
@@ -25,4 +25,4 @@ const NotFound = () => {
 
 }
 
-export default NotFound
+export default RouteError
