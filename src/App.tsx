@@ -1,13 +1,11 @@
-import { useEffect, useState, FC } from 'react';
+import { useEffect, useState } from 'react';
 import {
-  CssBaseline,
-  LinearProgress
+  CssBaseline
 } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import * as Styles from './styles';
 import {IntlProvider} from 'react-intl';
-import { useDispatch, useSelector } from 'react-redux';
-import { globalActions } from './reducers/global.slice';
+import { useSelector } from 'react-redux';
 import { getGlobal } from './reducers/states';
 import ProjectConfig from './project.config.json';
 import { Locales } from './locales/global/index';
@@ -16,7 +14,6 @@ import {Outlet } from 'react-router-dom';
 import locales from './locales';
 
 export const App = () => {
-  // const dispatch = useDispatch();
   const {locale} = useSelector(getGlobal);
   const styles:any = Styles;
   const theme = ProjectConfig.themeName ? styles[ProjectConfig.themeName] : styles.defaultTheme;
@@ -35,10 +32,8 @@ export const App = () => {
       <ThemeProvider theme={theme}>
         <>
           <CssBaseline/>
-          <>
-            <Outlet/>
-            <AppPlugins/>
-          </>
+          <Outlet/>
+          <AppPlugins/>
         </>
       </ThemeProvider>
     </IntlProvider>
