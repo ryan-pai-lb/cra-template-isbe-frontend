@@ -1,7 +1,7 @@
 import { Box, Button, Paper} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { globalActions } from '@/reducers/global.slice';
-import { getGlobal } from '@/reducers/states';
+import { globalActions } from '@/store/global.slice';
+import { getGlobal } from '@/store/states';
 import { useEffect } from 'react';
 import useRouteNavigate from '@/hooks/useRouteNavigate'
 

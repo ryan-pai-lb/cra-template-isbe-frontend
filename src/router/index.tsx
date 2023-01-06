@@ -3,15 +3,15 @@ import { EnhancedStore } from '@reduxjs/toolkit';
 import Loadable, {LoadableClassComponent} from '@loadable/component';
 import {createBrowserRouter, RouteObject, matchRoutes, matchPath, redirect, useLocation } from 'react-router-dom';
 import routesJSON from './routes.json';
-import { AppDispatch } from '@/reducers/store';
+import { AppDispatch } from '@/store';
 import LayoutLoading from '@/components/LayoutLoading';
 import layoutPlugins from '@/components/layouts'
 import PageLoading from '@/components/PageLoading';
 import _ from 'lodash';
 import App, {appLoader} from '@/App';
 import { globalApi  } from '@/services/globalApi';
-import { globalActions } from '@/reducers/global.slice';
-import RouteError from '@/pages/RouteError';
+import { globalActions } from '@/store/global.slice';
+import PageError from '@/pages/PageError';
 import ProjectConfig from '@/project.config.json';
 
 export type RoutesJSON = typeof routesJSON;
@@ -61,7 +61,7 @@ export const createRouter = (store:EnhancedStore) => {
 
       newRoute.path = route.path
       newRoute.element = <Element routes={route.children} componentPlugins={componentPlugins}/>
-      newRoute.errorElement = <RouteError/>
+      newRoute.errorElement = <PageError/>
       newRoute.children = createRoute(route.children);
       newRoute.loader = async({request, params}) => {
         const dispatch:AppDispatch = store.dispatch;
@@ -112,7 +112,7 @@ export const createRouter = (store:EnhancedStore) => {
     childrenRoutes.push({
       path: "*",
 
-      errorElement: <RouteError/>
+      errorElement: <PageError/>
     })
     return childrenRoutes
   }

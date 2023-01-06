@@ -10,8 +10,8 @@ import {
   Menu
  } from '@mui/material';
 import { PositionedMenu as LanguageMenu } from '@/uiComponents';
-import { globalActions } from '@/reducers/global.slice';
-import { getGlobal } from '@/reducers/states';
+import { globalActions } from '@/store/global.slice';
+import { getGlobal } from '@/store/states';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import { languages } from '@/locales';
 

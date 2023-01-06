@@ -1,5 +1,5 @@
 import {useSelector, useDispatch } from 'react-redux';
-import { globalActions } from '@/reducers/global.slice';
+import { globalActions } from '@/store/global.slice';
 import { Dialog , Snackbar} from '@/uiComponents';
 import useRouteNavigate from '@/hooks/useRouteNavigate';
 

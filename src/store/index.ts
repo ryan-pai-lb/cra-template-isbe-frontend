@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { api } from '@/services/index';
-import reducers from '@/reducers';
+import reducers from '@/store/reducers';
 import logger from "redux-logger";
 import {globalReducer, GLOBAL_FEATURE_KEY} from './global.slice';
 

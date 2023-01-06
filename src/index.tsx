@@ -4,7 +4,7 @@ import { RouterProvider, } from 'react-router-dom';
 import { createRouter } from './router';
 import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
-import store from './reducers/store';
+import store from './store';
 import AppLoading from '@/components/AppLoading';
 
 const root = ReactDOM.createRoot(

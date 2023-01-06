@@ -6,7 +6,7 @@ import { ThemeProvider } from '@mui/material/styles';
 import * as Styles from './styles';
 import {IntlProvider} from 'react-intl';
 import { useSelector } from 'react-redux';
-import { getGlobal } from './reducers/states';
+import { getGlobal } from './store/states';
 import ProjectConfig from './project.config.json';
 import { Locales } from './locales/global/index';
 import AppPlugins from '@/components/AppPlugins';

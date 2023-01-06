@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, LinearProgress, TableRow, Icon,IconButton } from '@mui/material';
 import { EnhancedStore, Dispatch } from '@reduxjs/toolkit';
-import { globalActions } from '@/reducers/global.slice';
+import { globalActions } from '@/store/global.slice';
 import { useDispatch } from 'react-redux';
 import { todosApi, TodoItem } from '@/services/todosApi';
 import { Params } from 'react-router-dom';
-import { AppDispatch } from '@/reducers/store';
+import { AppDispatch } from '@/store';
 import moment from 'moment';
 import "moment-timezone";
 import TodoEdit from './TodoInput';

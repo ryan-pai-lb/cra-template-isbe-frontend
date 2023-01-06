@@ -1,5 +1,5 @@
-import { ExampleState } from '@/reducers/example.slice';
-import {GlobalState} from '@/reducers/global.slice';
+import { ExampleState } from '@/store/example.slice';
+import {GlobalState} from '@/store/global.slice';
 
 export interface RootState {
   global: GlobalState
