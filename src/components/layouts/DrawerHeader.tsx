@@ -81,7 +81,7 @@ const DrawerHeader = () => {
             <MenuItem onClick={() => {
               localStorage.removeItem('auth-token')
               langNavigate('/user')
-            }}>Loginout</MenuItem>
+            }}>LOGOUT</MenuItem>
           </Menu>
       </Box>
     </Box>
