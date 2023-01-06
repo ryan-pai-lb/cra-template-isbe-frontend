@@ -44,6 +44,7 @@ export type DialogOptions = {
   confirm?: boolean | undefined;
   visible?: boolean;
   close?: boolean;
+  closeHandle?(dispatch?:Dispatch<any>, history?:any): void |  null | undefined | unknown;
   backdropClose?:boolean;
   fullScreen?: boolean | undefined;
   mobileFullScreen?:boolean | undefined;

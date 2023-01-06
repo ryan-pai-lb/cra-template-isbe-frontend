@@ -20,7 +20,11 @@ const AppPlugins = () => {
           "buttonSize": "large"
         }}
         onClose = {() => {
-          dispatch(globalActions.toogleDialog({visible: false}))
+          if(typeof global.dialog.closeHandle === 'function') {
+            global.dialog.closeHandle(dispatch, navigate)
+          } else {
+            dispatch(globalActions.toogleDialog({visible: false}))
+          }
         }}
         onConfirm={() => {
           if(typeof global.dialog.confirmHandle === 'function') {

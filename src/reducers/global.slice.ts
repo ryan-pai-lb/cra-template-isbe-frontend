@@ -13,6 +13,7 @@ export interface GlobalState  {
     confirm?: boolean | undefined;
     visible?: boolean;
     close?: boolean;
+    closeHandle?(dispatch?:Dispatch<any>, history?:any): void |  null | undefined | unknown;
     backdropClose?:boolean;
     fullScreen?: boolean | undefined;
     mobileFullScreen?:boolean | undefined;
@@ -126,6 +127,7 @@ export const globalSlice = createSlice({
         globalDialogSettings = {
           confirm: false,
           close: false,
+          closeHandle: undefined,
           backdropClose:false,
           mobileFullScreen:false,
           mobileVertical:'',

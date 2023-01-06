@@ -5,7 +5,7 @@ import {createBrowserRouter, RouteObject, matchRoutes, matchPath, redirect, useL
 import routesJSON from './routes.json';
 import { AppDispatch } from '@/reducers/store';
 import LayoutLoading from '@/components/LayoutLoading';
-import layoutPlugins from '@/plugins'
+import layoutPlugins from '@/components/layouts'
 import PageLoading from '@/components/PageLoading';
 import _ from 'lodash';
 import App, {appLoader} from '@/App';

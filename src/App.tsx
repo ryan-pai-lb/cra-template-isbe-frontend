@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { getGlobal } from './reducers/states';
 import ProjectConfig from './project.config.json';
 import { Locales } from './locales/global/index';
-import plugins from '@/plugins';
+import AppPlugins from '@/components/AppPlugins';
 import {Outlet, Params } from 'react-router-dom';
 import locales from './locales';
 import { EnhancedStore } from '@reduxjs/toolkit';
@@ -23,7 +23,6 @@ export const App = () => {
   const styles:any = Styles;
   const theme = ProjectConfig.themeName ? styles[ProjectConfig.themeName] : styles.defaultTheme;
   const [i8nMessages, setI8nMessages] = useState<Locales>();
-  const AppPlugins = plugins['App'];
 
   useEffect(() => {
     const init = () => {
