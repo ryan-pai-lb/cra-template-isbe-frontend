@@ -1,13 +1,37 @@
-import {request} from '@/utils';
+import { api, prefixProxyEndpoint } from '@/services';
 
-export async function getCaptcha() {
-  return request.post(`/v1/captcha`);
+export type MeResponse = {
+ error?:any;
+ data?:any
 }
 
-export async function getMeta() {
-  return request.get('/v1/meta');
-}
+export type MetaResponse = {
+  error?:any;
+  data?:any
+ }
+ 
 
-export async function getUserInfo() {
-  return request.get(`/v1/me`);
-}
+export const globalApi = api.injectEndpoints({
+  endpoints: (builder) => ({
+    getMe: builder.query<MeResponse,void>({
+      query: () => prefixProxyEndpoint(`/v1/me`)
+    }),
+    getMeta: builder.query<MetaResponse,void>({
+      query: () => prefixProxyEndpoint(`/v1/meta`)
+    })
+  })
+});
+
+globalApi.enhanceEndpoints({
+  addTagTypes: ['Global'],
+  endpoints: {
+    getMe: {
+      providesTags: [{type: 'Global', id: 'ME'}]
+    },
+    getMeta: {
+      providesTags: [{type: 'Global', id: 'META'}]
+    }
+  }
+})
+
+export default globalApi;

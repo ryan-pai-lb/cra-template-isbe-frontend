@@ -10,8 +10,13 @@ import { getGlobal } from './reducers/states';
 import ProjectConfig from './project.config.json';
 import { Locales } from './locales/global/index';
 import plugins from '@/plugins';
-import {Outlet } from 'react-router-dom';
+import {Outlet, Params } from 'react-router-dom';
 import locales from './locales';
+import { EnhancedStore } from '@reduxjs/toolkit';
+
+export const appLoader = async({store, request, params}:{store:EnhancedStore, request:Request, params:Params}) => {
+  return null;
+}
 
 export const App = () => {
   const {locale} = useSelector(getGlobal);

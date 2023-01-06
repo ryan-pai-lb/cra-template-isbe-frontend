@@ -27,7 +27,7 @@
   "enableMetaAPI": {
     "filed": "input",
     "description": "是否啟動 meta api",
-    "value": false
+    "value": true
   },
   "enableMaintenance": {
     "filed": "input",
