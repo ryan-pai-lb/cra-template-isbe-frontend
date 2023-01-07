@@ -41,7 +41,9 @@
     "start": "HTTPS=true craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "create-template": "cp -a ./src/. template/src && cp -a ./public/. template/public && cp tsconfig.json tsconfig.paths.json craco.config.js README.md template/",
+    "clean-template": "rm -rf ./template/public ./template/src && rm -f ./template/README.md ./template/tsconfig.json ./template/tsconfig.paths.json ./template/tsconfig.paths.json ./template/craco.config.js"
   },
   "eslintConfig": {
     "extends": [

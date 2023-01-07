@@ -1,0 +1,62 @@
+[
+  {
+    "path": "user",
+    "element": "layout/User",
+    "redirect": "/user/login",
+    "children": [
+      {
+        "title": "title.login",
+        "icon": "info",
+        "path": "login",
+        "element": "pages/user/Login",
+        "order": 1,
+        "children": [],
+        "hiddenNavigation": false,
+        "hiddenBreadcrumb": false
+      }
+    ]
+  },
+  {
+    "path": "",
+    "element": "layout/Drawer",
+    "redirect": "/home",
+    "children": [
+      {
+        "title": "title.home",
+        "icon": "info",
+        "path": "home",
+        "loaderName": "homeLoader",
+        "element": "pages/Home",
+        "order": 1,
+        "children": [],
+        "hiddenNavigation": true,
+        "hiddenBreadcrumb": false
+      },
+      {
+        "title": "title.todo",
+        "icon": "icons/DerivateIcon",
+        "path": "todo",
+        "loaderName": "todoLoader",
+        "element": "pages/todo/index",
+        "order": 2,
+        "disabledBreadcrumbLink": true,
+        "redirect": "/todo/list",
+        "children": [{
+          "title": "title.todo.create",
+          "icon": "info",
+          "path": "create",
+          "element": "pages/todo/Create",
+          "order": 1,
+          "children": []
+        },{
+          "title": "title.todo.list",
+          "icon": "info",
+          "path": "list",
+          "element": "pages/todo/List",
+          "order": 1,
+          "children": []
+        }]
+      }
+    ]
+  }
+]
