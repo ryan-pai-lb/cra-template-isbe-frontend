@@ -17,7 +17,6 @@ import {
   IconButton,
   useMediaQuery
  } from '@mui/material';
- import { makeStyles } from '@mui/styles';
 import { ThemeProvider, createTheme, Theme} from '@mui/material/styles';
 import { defaultTheme as BasicTheme } from '@/styles'; 
 
@@ -61,48 +60,12 @@ export type DialogOptions = {
   cancelVariant?: 'contained' | 'outlined';
   cancelColor?: 'primary' | 'secondary';
   cancelText?: string;
-  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' //[xs,sm,md,lg]
+  maxWidth?: 'xs' | 'sm' | 'md' | 'lg' 
 }
-
-const useStyles = makeStyles((theme:Theme) => {
-  return {
-    itemGroup: {
-      display: 'flex',
-      margin: -theme.spacing(1),
-      '& > *': {
-        margin: theme.spacing(1),
-      }
-    },
-    
-    columnGroup: {
-      display: 'flex',
-      flexDirection: 'column',
-      margin: `${-theme.spacing(1)} 0`,
-      '& > *': {
-        margin: `${theme.spacing(1)} 0`,
-      }
-    },
-    columnReverseGroup: {
-      flexDirection: 'column-reverse',
-    },
-    title: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    closeBtn: {
-      position: 'absolute',
-      right: 16,
-      top: 16
-    },
-  }
-})
-
 
 const LBDialog = (props:DialogProps) => {
   const {options, configs, overrideTheme, onClose, onConfirm, onCancel} = props;
   const componentConfig = configs || {};
-  const classes = useStyles();
   const dialogSetting:DialogOptions = options ;
   const defaultTheme = createTheme(_.defaultsDeep( BasicTheme))
   const isMobileAny = useMediaQuery(defaultTheme.breakpoints.down('xs'));
@@ -127,6 +90,9 @@ const LBDialog = (props:DialogProps) => {
         styleOverrides: {
           root: {
             position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             '& > *': {
               minHeight: 30
             },
@@ -167,9 +133,7 @@ const LBDialog = (props:DialogProps) => {
         >
           {
             (dialogSetting.title || dialogSetting.close) &&
-            <DialogTitle
-              className={clsx(classes.title)}
-            >
+            <DialogTitle>
               <>
                 {
                   (dialogSetting.title && typeof dialogSetting.title === 'string') &&
@@ -186,13 +150,15 @@ const LBDialog = (props:DialogProps) => {
                 }
                 {
                   dialogSetting.close &&
-                  <IconButton
-                    data-test="dialog-close-btn"
-                    className={clsx(classes.closeBtn)}
-                    onClick={onClose} size="small"
-                  >
-                    <Icon>close</Icon>
-                  </IconButton>
+                  <Box position="absolute" right={16} top={16}>
+                    <IconButton
+                      data-test="dialog-close-btn"
+                      onClick={onClose} size="small"
+                    >
+                      <Icon>close</Icon>
+                    </IconButton>
+                  </Box>
+                  
                 }
               </>
             </DialogTitle>
@@ -225,11 +191,17 @@ const LBDialog = (props:DialogProps) => {
         {
           !dialogSetting.contentComponent &&
             <DialogActions disableSpacing>
-              <Box display="flex" className={clsx({
-                [classes.itemGroup]: !componentConfig.actionColumn,
-                [classes.columnGroup]: componentConfig.actionColumn,
-                [classes.columnReverseGroup]: componentConfig.actionColumnReverse,
-              })} width={componentConfig.actionFullWidth ? 1 : 'initial'}>
+              
+              <Box
+                display='flex'
+                sx={{
+                  flexDirection: componentConfig.actionColumn && 'column' || componentConfig.actionColumnReverse && 'column-reverse' || 'inherit',
+                  margin: !componentConfig.actionColumn ? -8 : `-8px 0`,
+                  '& > *': {
+                    margin: !componentConfig.actionColumn ? 8 : `8px 0`
+                  }
+                }}
+                width={componentConfig.actionFullWidth ? 1 : 'initial'}>
                 {
                   dialogSetting.confirm &&
                   

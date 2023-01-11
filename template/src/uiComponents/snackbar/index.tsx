@@ -7,8 +7,7 @@ import {
 import { useSnackbar, SnackbarProvider, SnackbarKey, SnackbarContentCallback } from 'notistack';
 import _ from 'lodash';
 import { FormattedMessage} from 'react-intl';
-import { makeStyles } from '@mui/styles';
-import { useTheme, Theme, createTheme, ThemeProvider} from '@mui/material/styles';
+import { useTheme, Theme, createTheme, ThemeProvider, styled} from '@mui/material/styles';
 import { defaultTheme as BasicTheme } from '@/styles'; 
 
 
@@ -50,20 +49,18 @@ export type SnackbarOptions = {
   autoHideDuration?:number
 }
 
-const useStyles = makeStyles((theme: Theme) => ({
-  containerRoot: {
-    color: `${theme.palette.default.contrastText} !important`,
-  },
-  variantSuccess: {
+const SnackbarProviderComponent = styled(SnackbarProvider)(({ theme }) => ({
+  color: `${theme.palette.default.contrastText} !important`,
+  '&.SnackbarItem-variantSuccess': {
     backgroundColor: `${theme.palette.success.main} !important`
   },
-  variantError: {
+  '&.SnackbarItem-variantError': {
     backgroundColor: `${theme.palette.error.main} !important`
   },
-  variantWarning: {
+  '&.SnackbarItem-variantWarning': {
     backgroundColor: `${theme.palette.warning.main} !important`
   },
-  variantInfo: {
+  '&.SnackbarItem-variantInfo': {
     backgroundColor: `${theme.palette.info.main} !important`
   }
 }));
@@ -144,7 +141,6 @@ const LBSnackbarContent = (props:SnackbarProps) => {
 
 const LBSnackbar = (props:SnackbarProps) => {
   const { themeName, overrideTheme} = props;
-  const classes = useStyles()
   const componentTheme = themeName 
   const defaultTheme = createTheme(_.defaultsDeep(componentTheme,BasicTheme))
   const theme:any = createTheme(_.defaultsDeep({
@@ -153,21 +149,14 @@ const LBSnackbar = (props:SnackbarProps) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <SnackbarProvider
-        classes={{
-          containerRoot: classes.containerRoot,
-          variantSuccess: classes.variantSuccess,
-          variantError: classes.variantError,
-          variantWarning: classes.variantWarning,
-          variantInfo: classes.variantInfo,
-        }}
+      <SnackbarProviderComponent
         maxSnack={3}
         hideIconVariant={true}
       >
         <LBSnackbarContent
           {...props}
         ></LBSnackbarContent>
-      </SnackbarProvider>
+      </SnackbarProviderComponent>
     </ThemeProvider>
   );
 }
