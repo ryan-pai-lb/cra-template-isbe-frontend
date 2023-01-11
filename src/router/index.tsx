@@ -2,6 +2,7 @@ import React, { } from 'react';
 import { EnhancedStore } from '@reduxjs/toolkit';
 import Loadable, {LoadableClassComponent} from '@loadable/component';
 import {createBrowserRouter, RouteObject, matchRoutes, matchPath, redirect, useLocation } from 'react-router-dom';
+import { useLangNavigate } from '@roswell/hooks'
 import routesJSON from './routes.json';
 import { AppDispatch } from '@/store';
 import LayoutLoading from '@/components/LayoutLoading';

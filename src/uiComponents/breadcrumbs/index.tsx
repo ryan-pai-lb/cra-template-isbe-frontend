@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, matchRoutes, RouteMatch, useParams} from "react-router-dom";
-import useRouteNavigate from '@/hooks/useRouteNavigate'
+import { useLangNavigate } from '@roswell/hooks';
 import {
   FormattedMessage,
 } from 'react-intl';
@@ -59,7 +59,7 @@ export const Breadcrumb = (props: BreadcrumbProps) => {
   const params = useParams();
   const { lang } = params;
   const { enableIcon } = componentConfig;
-  const navigate = useRouteNavigate();
+  const navigate = useLangNavigate();
   const location = useLocation();
 
   const defaultTheme = createTheme(_.defaultsDeep( BasicTheme))

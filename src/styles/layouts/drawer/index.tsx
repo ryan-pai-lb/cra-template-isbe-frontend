@@ -1,6 +1,5 @@
 import React, { useEffect, useState, FC } from 'react';
-import { Outlet, useLocation, matchRoutes, useParams} from "react-router-dom";
-import useRouteNavigate from '@/hooks/useRouteNavigate'
+import { Outlet, useLocation, matchRoutes, useParams, useNavigate} from "react-router-dom";
 import Loadable from '@loadable/component';
 import { 
   Box,
@@ -26,6 +25,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import { useLangNavigate } from '@roswell/hooks'
 
 interface DrawerProps {
   routes:any;
@@ -33,7 +33,6 @@ interface DrawerProps {
     DrawerHeader?:FC,
     DrawerBreadcrumb?:FC
   }
-  
 }
 
 const drawerWidth = 240;
@@ -89,7 +88,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export const Drawer = (props:DrawerProps) => {
   const { routes, componentPlugins } = props;
   const theme = useTheme();
-  const navigate = useRouteNavigate();
+  const navigate = useLangNavigate();
+
   const [drawerOpen, setDrawerOpen] = useState(true);
   const [routeCollapseOpen, setRouteCollapseOpen] = useState<{[key:string]:boolean}>({});
   const location = useLocation();

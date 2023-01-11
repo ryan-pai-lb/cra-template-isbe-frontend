@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { globalActions } from '@/store/global.slice';
 import { getGlobal } from '@/store/states';
 import { useEffect } from 'react';
-import useRouteNavigate from '@/hooks/useRouteNavigate'
+import { useLangNavigate } from '@roswell/hooks'
 
 const Login = () => {
   const dispatch = useDispatch();
-  const navigate = useRouteNavigate();
+  const navigate = useLangNavigate();
 
   const onLogin = () => {
     localStorage.setItem('auth-token', '3C-rZnJWf324I7mv2gSYs6-wYi4wcfJ7OWyPvl-UOcrxBcTHPQ')

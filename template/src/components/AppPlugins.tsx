@@ -1,12 +1,12 @@
 import {useSelector, useDispatch } from 'react-redux';
 import { globalActions } from '@/store/global.slice';
 import { Dialog , Snackbar} from '@/uiComponents';
-import useRouteNavigate from '@/hooks/useRouteNavigate';
+import { useLangNavigate } from '@roswell/hooks'
 
 const AppPlugins = () => {
   const global = useSelector( (state:any) => state.global);
   const dispatch = useDispatch();
-  const navigate = useRouteNavigate();
+  const navigate = useLangNavigate();
 
   return (
     <>

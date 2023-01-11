@@ -1,9 +1,9 @@
 import { useEffect } from 'react'; 
 import { useRouteError, isRouteErrorResponse } from 'react-router-dom';
-import useRouteNavigate from '@/hooks/useRouteNavigate';
+import { useLangNavigate } from '@roswell/hooks'
 const RouteError = () => {
   let error = useRouteError();
-  const navigate = useRouteNavigate();
+  const navigate = useLangNavigate();
 
   useEffect(() => {
     if(isRouteErrorResponse(error)) {

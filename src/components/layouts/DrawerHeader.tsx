@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation, useParams, useNavigate } from "react-router-dom";
-import useRouteNavigate from '@/hooks/useRouteNavigate'
+import { useLangNavigate } from '@roswell/hooks'
 import { useDispatch, useSelector } from 'react-redux';
 import { 
   Box,
@@ -19,7 +19,7 @@ const DrawerHeader = () => {
   const dispatch = useDispatch();
   const params = useParams();
   const navigate = useNavigate();
-  const langNavigate = useRouteNavigate()
+  const langNavigate = useLangNavigate()
   const location = useLocation();
   const { lang } = params;
   const global = useSelector(getGlobal);
