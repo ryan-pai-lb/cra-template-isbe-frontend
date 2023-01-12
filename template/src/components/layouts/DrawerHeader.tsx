@@ -9,7 +9,7 @@ import {
   MenuItem,
   Menu
  } from '@mui/material';
-import { PositionedMenu as LanguageMenu } from '@/uiComponents';
+import { PositionedMenu as LanguageMenu } from '@roswell/ui-components';
 import { globalActions } from '@/store/global.slice';
 import { getGlobal } from '@/store/states';
 import AccountCircle from '@mui/icons-material/AccountCircle';
