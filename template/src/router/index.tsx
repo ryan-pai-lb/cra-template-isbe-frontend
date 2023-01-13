@@ -1,8 +1,7 @@
 import React, { } from 'react';
 import { EnhancedStore } from '@reduxjs/toolkit';
 import Loadable, {LoadableClassComponent} from '@loadable/component';
-import {createBrowserRouter, RouteObject, matchRoutes, matchPath, redirect, useLocation } from 'react-router-dom';
-import { useLangNavigate } from '@roswell/hooks'
+import {createBrowserRouter, RouteObject, matchRoutes, matchPath, redirect, Outlet } from 'react-router-dom';
 import routesJSON from './routes.json';
 import { AppDispatch } from '@/store';
 import LayoutLoading from '@/components/LayoutLoading';
@@ -54,14 +53,14 @@ export const createRouter = (store:EnhancedStore) => {
       const newRoute:RouteObject = {}
       const isLayout = !!route.element.match('layout/');
       const elementPath = route.element.replace('layout/', '').replace('pages/', '');
-      const Element = Loadable(() =>  isLayout ?import(`@/styles`).then((module:any) => module[elementPath]): import(`@/pages/${elementPath}`),{
+      const Element = Loadable(() =>  isLayout ?import(`@roswell/layouts`).then((module:any) => module[elementPath]): import(`@/pages/${elementPath}`),{
         fallback: isLayout ? <LayoutLoading/> : <PageLoading/>
       });
       const layoutName = isLayout ? route.element.replace(/layout\//i, '') : '';
       const componentPlugins = layoutPlugins[layoutName]
 
       newRoute.path = route.path
-      newRoute.element = <Element routes={route.children} componentPlugins={componentPlugins}/>
+      newRoute.element = <Element routes={route.children} componentPlugins={componentPlugins} Outlet={Outlet}/>
       newRoute.errorElement = <PageError/>
       newRoute.children = createRoute(route.children);
       newRoute.loader = async({request, params}) => {

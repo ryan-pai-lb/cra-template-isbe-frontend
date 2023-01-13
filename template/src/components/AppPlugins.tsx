@@ -1,8 +1,7 @@
 import {useSelector, useDispatch } from 'react-redux';
 import { globalActions } from '@/store/global.slice';
-import { Snackbar} from '@/uiComponents';
 import { useLangNavigate } from '@roswell/hooks'
-import { Dialog } from '@roswell/ui-components'
+import { Dialog, Snackbar } from '@roswell/ui-components'
 
 const AppPlugins = () => {
   const global = useSelector( (state:any) => state.global);
