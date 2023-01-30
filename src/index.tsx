@@ -2,21 +2,29 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { createRouter } from './router';
-import { Provider } from 'react-redux';
+import {
+  CssBaseline
+} from '@mui/material';
+import { combineComponents } from '@/utils/combineComponents';
 import reportWebVitals from './reportWebVitals';
 import store from './store';
 import AppLoading from '@/components/AppLoading';
+import contexts from '@/contexts';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 const router = createRouter(store);
+const AppProviders = combineComponents(...contexts);
 
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} fallbackElement={<AppLoading/>}/>
-    </Provider>
+    <AppProviders>
+      <>
+        <CssBaseline/>
+        <RouterProvider router={router} fallbackElement={<AppLoading/>}/>
+      </>
+    </AppProviders>
   </React.StrictMode>
 );
 

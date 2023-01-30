@@ -48,7 +48,8 @@ export interface GlobalState  {
     preventDuplicate?:boolean;
     hideIconVariant?:boolean;
     dense?:boolean;
-    autoHideDuration?:number
+    autoHideDuration?:number;
+    closeHandle?(dispatch?:Dispatch<any>, history?:any): void |  null | undefined | unknown;
   },
   alert: {
     visible: boolean;
@@ -57,7 +58,7 @@ export interface GlobalState  {
     variant?: 'standard' | 'filled' | 'outlined';
     Icon?: React.ReactNode;
     close?: boolean;
-    closeAction?():void | null | undefined;
+    closeHandle?(dispatch?:Dispatch<any>, history?:any): void |  null | undefined | unknown;
     vertical?: 'top' | 'bottom';
     top?: number | undefined;
     bottom?: number | undefined;

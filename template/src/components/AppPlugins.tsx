@@ -10,14 +10,12 @@ const AppPlugins = () => {
   return (
     <>  
       <Dialog 
-        options={global.dialog} 
-        configs={{
-          "dialogBorder": true,
-          "actionFullWidth": true,
-          "actionColumn": true,
-          "actionColumnReverse": false,
-          "buttonSize": "large"
-        }}
+        {...global.dialog}
+        dialogBorder={true}
+        actionFullWidth={true}
+        actionColumn= {true}
+        actionColumnReverse={false}
+        buttonSize={'large'}
         onClose = {() => {
           if(typeof global.dialog.closeHandle === 'function') {
             global.dialog.closeHandle(dispatch, navigate)
@@ -52,7 +50,11 @@ const AppPlugins = () => {
           contentColor: "#fff"
         }}
         onClose={() => {
-          // dispatch(globalActions.snackbarRequest({visible: false}))
+          /* if(typeof global.snackbar.closeHandle === 'function') {
+            global.snackbar.closeHandle(dispatch, navigate)
+          } else {
+            dispatch(globalActions.snackbarRequest({visible: false}))
+          } */
         }}
       />
     </>
