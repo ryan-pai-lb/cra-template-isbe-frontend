@@ -47,7 +47,7 @@ const DrawerHeader = () => {
       <Box display="flex" alignItems="center">
         <Box>
           <LanguageMenu 
-            options={{data: languagesData, defaultValue: global.locale}} 
+            {...{data: languagesData, defaultValue: global.locale}}
             onChange={(item) => {
               const langPath = `/${item.value}${lang ? location.pathname.replace(`/${lang}`, '') : location.pathname}`
               dispatch(globalActions.changeLanguage(item.value));

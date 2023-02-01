@@ -57,10 +57,9 @@ export const createRouter = (store:EnhancedStore) => {
         fallback: isLayout ? <LayoutLoading/> : <PageLoading/>
       });
       const layoutName = isLayout ? route.element.replace(/layout\//i, '') : '';
-      const componentPlugins = layoutPlugins[layoutName]
 
       newRoute.path = route.path
-      newRoute.element = <Element routes={route.children} componentPlugins={componentPlugins} Outlet={Outlet}/>
+      newRoute.element = <Element routes={route.children} Outlet={Outlet} {...layoutPlugins[layoutName]} />
       newRoute.errorElement = <PageError/>
       newRoute.children = createRoute(route.children);
       newRoute.loader = async({request, params}) => {

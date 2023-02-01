@@ -6,7 +6,10 @@ export type LayoutsPluginType = {
 
 const LayoutsPlugin:LayoutsPluginType = {
   Drawer : {
-    DrawerHeader
+    componentPlugins: {
+      DrawerHeader
+    },
+    defaultOpen: true
   }
 }
 export default LayoutsPlugin

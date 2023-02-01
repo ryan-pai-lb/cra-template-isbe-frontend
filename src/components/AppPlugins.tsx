@@ -39,7 +39,7 @@ const AppPlugins = () => {
         }}
       />
       <Snackbar
-        options={global.snackbar}
+        {...global.snackbar}
         configs={{
           onlyUseDefaultBackground: false,
           anchorOrigin: {
