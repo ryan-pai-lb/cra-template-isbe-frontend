@@ -1,5 +1,5 @@
 {
-  "name": "@roswell/cra-template-isbe-frontend",
+  "name": "cra-template-isbe-frontend",
   "version": "0.1.4",
   "private": false,
   "dependencies": {
